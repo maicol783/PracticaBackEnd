@@ -6,8 +6,9 @@ spring:
     config:
       server:
         git:
+          default-label: main
           uri: https://github.com/maicol783/PracticaBackEnd.git
-          searchPath: config-data
+          searchPaths: config-data
           username: ${GIT_USER}
           password: ${GIT_PASSWORD}
   security:
