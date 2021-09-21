@@ -8,9 +8,6 @@ server:
 spring:
   data:
     mongodb:
-      authentication-database: admin
-      username: MongoDB
-      password:
-      database: photosDB
-      port: 27017
       host: localhost
+      port: 27017
+      uri: mongodb://localhost/photosDB
