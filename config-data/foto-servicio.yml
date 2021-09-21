@@ -11,6 +11,6 @@ spring:
       authentication-database: admin
       username: MongoDB
       password:
-      database: photoDB
+      database: photosDB
       port: 27017
       host: localhost
