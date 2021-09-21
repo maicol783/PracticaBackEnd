@@ -8,12 +8,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document
-
 @AllArgsConstructor @NoArgsConstructor @Builder
+@Document(collation = "cl_fotos")
 public class Foto {
     @Id
-    private int idFoto;
+    private int id;
     private String nombre;
 
 }

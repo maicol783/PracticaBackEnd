@@ -14,3 +14,6 @@ spring:
       database: photosDB
       port: 27017
       host: localhost
+      repositories:
+        enable: true
+      uri: mongodb://localhost/photosDB
