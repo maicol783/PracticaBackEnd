@@ -76,6 +76,15 @@ public class ClienteController {
         return ResponseEntity.ok(clienteDelete);
     }
 
+    @GetMapping(value = "/edad/{edad}")
+    public ResponseEntity<List<Cliente>> ListByEdad(@PathVariable("edad") int edad) {
+        List<Cliente> clienteDB = clienteServicio.ListByEdad(edad);
+        if (clienteDB.isEmpty()) {
+                return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(clienteDB);
+    }
+
     private String formatoMensaje(BindingResult result){
         List<Map<String, String>> errores = result.getFieldErrors().stream()
                 .map(err -> {
@@ -96,4 +105,5 @@ public class ClienteController {
         }
         return jsonString;
     }
+
 }

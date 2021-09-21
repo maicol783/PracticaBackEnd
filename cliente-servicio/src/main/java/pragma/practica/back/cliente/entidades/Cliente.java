@@ -20,7 +20,7 @@ public class Cliente {
 
     @Id
     @Size(min = 5, max = 15, message = "El tamaño del numero debe tener entre 5 a 15 caracteres")
-    @Column(name = "numero_identificacion")
+    @Column(name = "numero_identificacion", unique = true)
     private String numeroIdentificacion;
 
     @NotNull(message = "El tipo de identificacion no debe estar vacio")

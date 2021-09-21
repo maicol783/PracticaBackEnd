@@ -11,5 +11,6 @@ public interface ClienteServicio {
     Cliente createCliente(Cliente cliente);
     Cliente updateCiente(Cliente cliente);
     Cliente deleteCliente(String numeroDocumento);
+    List<Cliente> ListByEdad(int edad);
     List<Cliente> findByTipoIdentificacionAndNumeroIdentificacion(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion);
 }

@@ -32,6 +32,7 @@ public class ClienteServicioImp implements ClienteServicio{
         return clienteRepositorio.save(cliente);
     }
 
+
     @Override
     public Cliente updateCiente(Cliente cliente) {
         Cliente clienteDB = getCliente(cliente.getNumeroIdentificacion());
@@ -56,6 +57,11 @@ public class ClienteServicioImp implements ClienteServicio{
         }
         clienteDB.setEstado("DELETED");
         return clienteRepositorio.save(clienteDB);
+    }
+
+    @Override
+    public List<Cliente> ListByEdad(int edad) {
+        return clienteRepositorio.findByEdad(edad);
     }
 
     @Override
