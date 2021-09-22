@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collation = "cl_fotos")
 public class Foto {
     @Id
-    private int id;
+    private String id;
     private String nombre;
 
 }
