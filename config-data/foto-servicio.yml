@@ -8,5 +8,12 @@ server:
 spring:
   data:
     mongodb:
+      authentication-database: admin
+      username:
+      password:
+      database: photosDB
+      port: 27017
+      host: localhost
+      repositories:
+        enable: true
       uri: mongodb+srv://userMDB:passMDB@cluster0.onefe.mongodb.net/photoDB
-
