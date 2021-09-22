@@ -9,7 +9,7 @@ spring:
   data:
     mongodb:
       authentication-database: admin
-      username:
+      username: MongoDB
       password:
       database: photosDB
       port: 27017
