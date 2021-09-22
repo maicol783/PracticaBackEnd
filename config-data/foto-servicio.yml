@@ -8,4 +8,4 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://sami1752:1234@practicabackendjavaspri.awhux.mongodb.net/maicol
+      uri: mongodb+srv://userMDB:passMDB@cluster0.onefe.mongodb.net/photoDB
