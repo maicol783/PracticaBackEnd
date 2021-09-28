@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation group: 'net.iharder', name: 'base64', version: '2.3.9'
 	//implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	//implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 	compileOnly 'org.projectlombok:lombok'

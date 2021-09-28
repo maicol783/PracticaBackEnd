@@ -60,6 +60,8 @@ public class ClienteController {
     public ResponseEntity<Cliente> updateCliente(@PathVariable("numeroCedula") String numeroCedula, @RequestBody Cliente cliente){
         cliente.setNumeroIdentificacion(numeroCedula);
         Cliente clienteDB = clienteServicio.updateCiente(cliente);
+
+
         if (clienteDB == null){
             return ResponseEntity.notFound().build();
         }
