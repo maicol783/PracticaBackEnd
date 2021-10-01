@@ -6,3 +6,11 @@ spring:
       uri: http://localhost:8081
       username: root
       password: s3cr3t
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  http:
+    multipart:
+      enable: true
+

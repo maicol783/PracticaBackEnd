@@ -1,7 +1,9 @@
 package pragma.practica.back.cliente.servicios;
 
+import org.springframework.web.multipart.MultipartFile;
 import pragma.practica.back.cliente.entidades.Cliente;
 import pragma.practica.back.cliente.entidades.TipoIdentificacion;
+import pragma.practica.back.cliente.modelos.Foto;
 
 import java.util.List;
 

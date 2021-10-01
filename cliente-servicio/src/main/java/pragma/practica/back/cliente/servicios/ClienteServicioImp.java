@@ -1,10 +1,16 @@
 package pragma.practica.back.cliente.servicios;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import pragma.practica.back.cliente.clientes.ClienteFoto;
 import pragma.practica.back.cliente.entidades.Cliente;
 import pragma.practica.back.cliente.entidades.TipoIdentificacion;
+import pragma.practica.back.cliente.modelos.Foto;
 import pragma.practica.back.cliente.repositorios.ClienteRepositorio;
 
 import java.util.List;
@@ -13,8 +19,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteServicioImp implements ClienteServicio{
 
-
     private final ClienteRepositorio clienteRepositorio;
+
+    @Autowired
+    ClienteFoto clienteFoto;
+
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public List<Cliente> listAllClientes() {
@@ -23,13 +33,23 @@ public class ClienteServicioImp implements ClienteServicio{
 
     @Override
     public Cliente getCliente(String numeroDocumento) {
-        return clienteRepositorio.findById(numeroDocumento).orElse(null);
+        Cliente cliente = clienteRepositorio.findById(numeroDocumento).orElse(null);
+        return cliente;
     }
 
+    @Transactional
     @Override
     public Cliente createCliente(Cliente cliente) {
+        if (cliente.getFotoT() != null){
+            ResponseEntity<Foto> response = clienteFoto.createFoto(cliente.getFotoT());
+            Foto foto = modelMapper.map(response.getBody(), Foto.class);
+            cliente.setFoto(foto.getId());
+        }
+
         cliente.setEstado("CREATED");
         return clienteRepositorio.save(cliente);
+
+
     }
 
 
@@ -68,4 +88,5 @@ public class ClienteServicioImp implements ClienteServicio{
     public List<Cliente> findByTipoIdentificacionAndNumeroIdentificacion(TipoIdentificacion tipoIdentificacion, String numeroIdentificacion) {
         return clienteRepositorio.findByTipoIdentificacionAndNumeroIdentificacion(tipoIdentificacion, numeroIdentificacion);
     }
+
 }

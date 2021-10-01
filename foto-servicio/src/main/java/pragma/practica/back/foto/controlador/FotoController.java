@@ -1,7 +1,9 @@
 package pragma.practica.back.foto.controlador;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
-import net.iharder.Base64;
+//import net.iharder.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import pragma.practica.back.foto.servicios.FotoServicio;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,8 @@ public class FotoController {
 
     @Autowired
     private FotoServicio fotoServicio;
+
+    private Logger logger = LoggerFactory.getLogger(FotoController.class);
 
     @GetMapping
     public ResponseEntity<List<Foto>> listFotos(@RequestParam(value = "id", required = false) String id){
@@ -42,19 +47,22 @@ public class FotoController {
         return ResponseEntity.ok(fotos);
     }
 
-    @PostMapping
-    public ResponseEntity<Foto> createFoto(@RequestParam(value = "fotoSubida")MultipartFile fotoSubida, Foto foto){
-        if (!fotoSubida.isEmpty()){
-            Path directorioFotos = Paths.get("src//main//resources/photos");
-            String rutaAbsoluta = directorioFotos.toFile().getAbsolutePath();
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Foto> getFoto(@PathVariable("id")  String id){
+        Foto fotoDB = fotoServicio.getFoto(id);
+        if (fotoDB == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(fotoDB);
 
+    }
+
+    @PostMapping
+    public ResponseEntity<Foto> createFoto(@RequestParam(value = "fotoSubida") MultipartFile fotoSubida){
+        Foto foto = new Foto();
+        if (!fotoSubida.isEmpty()){
             try {
-                byte[] bytesPhoto = fotoSubida.getBytes();
-                Path rutaCompleta = Paths.get(rutaAbsoluta + "//"+ fotoSubida.getOriginalFilename());
-                Files.write(rutaCompleta, bytesPhoto);
-                String fotoCodificar = fotoSubida.getOriginalFilename();
-                String base64 = Base64.encodeBytes(fotoCodificar != null ? fotoCodificar.getBytes():null);
-                foto.setNombre(base64);
+                foto.setNombre(Base64.getEncoder().encodeToString(fotoSubida.getBytes()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -70,11 +78,10 @@ public class FotoController {
         Foto fotoDb = fotoServicio.getFoto(id);
         try {
             byte[] bytesPhoto = fotoNueva.getBytes();
-            Path rutaCompleta = Paths.get(rutaAbsoluta + "//"+ fotoNueva.getOriginalFilename());
+            Path rutaCompleta = Paths.get(rutaAbsoluta + "//"+ Base64.getEncoder().encodeToString(fotoNueva.getBytes()));
             Files.write(rutaCompleta, bytesPhoto);
-            String fotoCodificar = fotoNueva.getOriginalFilename();
-            String base64 = Base64.encodeBytes(fotoCodificar != null ? fotoCodificar.getBytes():null);
-            fotoDb.setNombre(base64);
+
+            fotoDb.setNombre(Base64.getEncoder().encodeToString(fotoNueva.getBytes()));
             fotoServicio.updateFoto(fotoDb);
         } catch (IOException e) {
             e.printStackTrace();

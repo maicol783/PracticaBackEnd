@@ -2,11 +2,18 @@ package pragma.practica.back.cliente.controlador;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import pragma.practica.back.cliente.controlador.errores.ErrorMensaje;
 import pragma.practica.back.cliente.entidades.Cliente;
@@ -22,6 +29,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/clientes")
+@Slf4j
 public class ClienteController {
 
     @Autowired
@@ -50,8 +58,8 @@ public class ClienteController {
         if (result.hasErrors()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatoMensaje(result));
         }
-
         Cliente clienteCreate = clienteServicio.createCliente(cliente);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteCreate);
 
     }
@@ -108,4 +116,16 @@ public class ClienteController {
         return jsonString;
     }
 
+    @PostMapping(value = "/form-data", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> formDataPrueba(@RequestBody ClienteDto model){
+        log.info("name: {}",model.getNombre());
+        log.info("fileName: {}",model.getFile().getName());
+        return ResponseEntity.ok("Termino la prueba");
+    }
+
+    @AllArgsConstructor @NoArgsConstructor @Data @Builder
+    public static class ClienteDto{
+        private String nombre;
+        private MultipartFile file;
+    }
 }
